@@ -12,16 +12,17 @@
   <meta name="theme-color" content="#000000">
   <meta name="format-detection" content="telephone=no">
 
-  <!-- Icono App SVG Data URI -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='110' fill='%231c1c1e'/%3E%3Crect x='110' y='140' width='90' height='24' rx='12' fill='%23ff9f0a'/%3E%3Crect x='143' y='107' width='24' height='90' rx='12' fill='%23ff9f0a'/%3E%3Crect x='312' y='140' width='90' height='24' rx='12' fill='%23ff9f0a'/%3E%3Ccircle cx='155' cy='355' r='18' fill='%23ff9f0a'/%3E%3Ccircle cx='355' cy='355' r='18' fill='%23ff9f0a'/%3E%3Crect x='280' y='343' width='150' height='24' rx='12' fill='%23ff9f0a'/%3E%3Crect x='110' y='343' width='90' height='24' rx='12' fill='%23ff9f0a'/%3E%3C/svg%3E">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='110' fill='%231c1c1e'/%3E%3Crect x='110' y='140' width='90' height='24' rx='12' fill='%23ff9f0a'/%3E%3Crect x='143' y='107' width='24' height='90' rx='12' fill='%23ff9f0a'/%3E%3Crect x='312' y='140' width='90' height='24' rx='12' fill='%23ff9f0a'/%3E%3Ccircle cx='155' cy='355' r='18' fill='%23ff9f0a'/%3E%3Ccircle cx='355' cy='355' r='18' fill='%23ff9f0a'/%3E%3Crect x='280' y='343' width='150' height='24' rx='12' fill='%23ff9f0a'/%3E%3Crect x='110' y='343' width='90' height='24' rx='12' fill='%23ff9f0a'/%3E%3C/svg%3E">
+  <!-- Iconos PWA -->
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
 
-  <!-- Web Manifest Inline -->
-  <link rel="manifest" href='data:application/manifest+json,{"name":"Calculadora","short_name":"Calculadora","start_url":".","display":"standalone","background_color":"%23000000","theme_color":"%23000000","description":"Calculadora","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 512 512%27%3E%3Crect width=%27512%27 height=%27512%27 rx=%27110%27 fill=%27%231c1c1e%27/%3E%3Crect x=%27110%27 y=%27140%27 width=%2790%27 height=%2724%27 rx=%2712%27 fill=%27%23ff9f0a%27/%3E%3Crect x=%27143%27 y=%27107%27 width=%2724%27 height=%2790%27 rx=%2712%27 fill=%27%23ff9f0a%27/%3E%3Crect x=%27312%27 y=%27140%27 width=%2790%27 height=%2724%27 rx=%2712%27 fill=%27%23ff9f0a%27/%3E%3C/svg%3E","sizes":"512x512","type":"image/svg+xml"}]}'>
+  <!-- Web App Manifest (archivo real y fallback inline) -->
+  <link rel="manifest" href="manifest.json">
 
   <style>
     /* ==========================================================================
-       RESET & BASE NATIVO
+       RESET Y BASE NATIVO
        ========================================================================== */
     *, *::before, *::after {
       box-sizing: border-box;
@@ -46,7 +47,7 @@
       height: 100dvh;
       overflow: hidden;
       background-color: #000000;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
       overscroll-behavior: none;
     }
 
@@ -64,8 +65,8 @@
     .secret-hotspot {
       position: absolute;
       top: 0;
-      width: 80px;
-      height: 80px;
+      width: 75px;
+      height: 75px;
       z-index: 999;
       background: transparent;
     }
@@ -73,11 +74,190 @@
     #hotspot-top-right { right: 0; }
 
     /* ==========================================================================
-       TEMA 1: CALCULADORA iOS (ESTILO ORIGINAL APPLE)
+       TEMA 1: SAMSUNG GALAXY (ONE UI CALCULATOR)
+       ========================================================================== */
+    .theme-samsung {
+      background-color: #000000;
+      color: #ffffff;
+      font-family: "Samsung One", "Segoe UI", Roboto, sans-serif;
+    }
+
+    .theme-samsung .calc-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 calc(16px + var(--safe-right)) calc(16px + var(--safe-bottom)) calc(16px + var(--safe-left));
+      max-width: 440px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Barra de herramientas superior estilo Samsung */
+    .theme-samsung .samsung-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 14px 6px 14px;
+      color: #8e8e93;
+    }
+
+    .theme-samsung .toolbar-left {
+      display: flex;
+      gap: 20px;
+    }
+
+    .theme-samsung .tool-icon {
+      width: 22px;
+      height: 22px;
+      fill: #8e8e93;
+      cursor: pointer;
+      opacity: 0.85;
+      transition: opacity 0.15s;
+    }
+
+    .theme-samsung .tool-icon:active {
+      opacity: 1;
+      transform: scale(0.95);
+    }
+
+    .theme-samsung .display-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-end;
+      padding: 0 16px 12px 16px;
+      min-height: 170px;
+      cursor: text;
+    }
+
+    /* Línea de Fórmula u Operación en curso */
+    .theme-samsung .formula-line {
+      display: block;
+      font-size: 46px;
+      font-weight: 400;
+      text-align: right;
+      color: #ffffff;
+      line-height: 1.15;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: clip;
+      width: 100%;
+      transition: all 0.22s cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+
+    /* Línea de Vista Previa Suave Samsung ("marcha suave") */
+    .theme-samsung .soft-preview-line {
+      display: block;
+      font-size: 32px;
+      font-weight: 300;
+      text-align: right;
+      color: #8a8a8e; /* Color suave / atenuado */
+      min-height: 38px;
+      margin-top: 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: clip;
+      width: 100%;
+      transition: all 0.2s ease;
+    }
+
+    /* Cuando el resultado sube arriba tras pulsar '=' */
+    .theme-samsung .formula-line.promoted {
+      transform: translateY(2px);
+      animation: samsungResultSlide 0.22s ease-out;
+    }
+
+    @keyframes samsungResultSlide {
+      0% { transform: translateY(12px); opacity: 0.7; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    .theme-samsung .keypad-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      width: 100%;
+      margin-top: 6px;
+    }
+
+    .theme-samsung .btn {
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 400;
+      transition: background-color 0.15s, transform 0.08s;
+      position: relative;
+    }
+
+    .theme-samsung .btn:active {
+      transform: scale(0.93);
+      filter: brightness(125%);
+    }
+
+    /* Botones numéricos Samsung: Gris muy oscuro / negro */
+    .theme-samsung .btn-num {
+      background-color: #171719;
+      color: #ffffff;
+      font-size: 30px;
+    }
+
+    /* Botones de función superior Samsung (C, (), %) */
+    .theme-samsung .btn-func {
+      background-color: #171719;
+      color: #ea4335; /* Rojo para C en Samsung */
+      font-size: 26px;
+      font-weight: 500;
+    }
+    .theme-samsung .btn-func.btn-parens,
+    .theme-samsung .btn-func.btn-percent {
+      color: #36bc7c; /* Verde Samsung */
+    }
+
+    /* Operadores verdes característicos de Samsung Calculator */
+    .theme-samsung .btn-op {
+      background-color: #171719;
+      color: #36bc7c; /* Verde Samsung #36bc7c */
+      font-size: 34px;
+      font-weight: 400;
+    }
+
+    .theme-samsung .btn-op.active-op {
+      background-color: #274334;
+      color: #4ade80;
+    }
+
+    /* Botón Igual Samsung: Fondo verde con símbolo blanco */
+    .theme-samsung .btn-equal {
+      background-color: #36bc7c !important;
+      color: #000000 !important;
+      font-size: 36px;
+      font-weight: 500;
+    }
+
+    .theme-samsung .btn-zero {
+      grid-column: span 1;
+      border-radius: 50%;
+    }
+
+    /* ==========================================================================
+       TEMA 2: CALCULADORA iOS
        ========================================================================== */
     .theme-ios {
       background-color: #000000;
       color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+    }
+
+    .theme-ios .samsung-toolbar {
+      display: none;
     }
 
     .theme-ios .calc-body {
@@ -101,10 +281,6 @@
     }
 
     .theme-ios .formula-line {
-      display: none; /* iOS clásico no muestra fórmula previa arriba */
-    }
-
-    .theme-ios .main-display {
       font-size: 80px;
       font-weight: 300;
       text-align: right;
@@ -112,9 +288,12 @@
       line-height: 1;
       white-space: nowrap;
       overflow: hidden;
-      text-overflow: clip;
       letter-spacing: -1.5px;
-      transition: font-size 0.1s ease;
+      width: 100%;
+    }
+
+    .theme-ios .soft-preview-line {
+      display: none;
     }
 
     .theme-ios .keypad-grid {
@@ -144,13 +323,11 @@
       transform: scale(0.96);
     }
 
-    /* Botones Numéricos iOS */
     .theme-ios .btn-num {
       background-color: #333333;
       color: #ffffff;
     }
 
-    /* Botones de Función Superior (AC, +/-, %) */
     .theme-ios .btn-func {
       background-color: #a5a5a5;
       color: #000000;
@@ -158,7 +335,6 @@
       font-weight: 500;
     }
 
-    /* Botones de Operación Naranja */
     .theme-ios .btn-op {
       background-color: #fe9e09;
       color: #ffffff;
@@ -172,7 +348,11 @@
       color: #fe9e09;
     }
 
-    /* Botón Cero alargado */
+    .theme-ios .btn-equal {
+      background-color: #fe9e09;
+      color: #ffffff;
+    }
+
     .theme-ios .btn-zero {
       grid-column: span 2;
       aspect-ratio: auto;
@@ -182,12 +362,16 @@
     }
 
     /* ==========================================================================
-       TEMA 2: CALCULADORA ANDROID (MATERIAL YOU / GOOGLE PIXEL)
+       TEMA 3: GOOGLE PIXEL (MATERIAL YOU)
        ========================================================================== */
     .theme-android {
       background-color: #1e1f20;
       color: #e3e3e3;
-      font-family: "Google Sans", Roboto, system-ui, sans-serif;
+      font-family: "Google Sans", Roboto, sans-serif;
+    }
+
+    .theme-android .samsung-toolbar {
+      display: none;
     }
 
     .theme-android .calc-body {
@@ -206,33 +390,29 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      padding: 0 16px 24px 16px;
-      min-height: 180px;
+      padding: 0 16px 20px 16px;
+      min-height: 170px;
     }
 
     .theme-android .formula-line {
-      display: block;
-      font-size: 26px;
-      color: #c4c7c5;
-      text-align: right;
-      min-height: 34px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-bottom: 8px;
-      font-weight: 400;
-    }
-
-    .theme-android .main-display {
-      font-size: 64px;
+      font-size: 58px;
       font-weight: 400;
       text-align: right;
       color: #ffffff;
       line-height: 1.1;
       white-space: nowrap;
       overflow: hidden;
-      letter-spacing: -0.5px;
-      transition: font-size 0.1s ease;
+      width: 100%;
+    }
+
+    .theme-android .soft-preview-line {
+      display: block;
+      font-size: 26px;
+      color: #c4c7c5;
+      text-align: right;
+      min-height: 34px;
+      margin-bottom: 6px;
+      width: 100%;
     }
 
     .theme-android .keypad-grid {
@@ -253,9 +433,7 @@
       justify-content: center;
       font-size: 26px;
       font-weight: 500;
-      transition: transform 0.1s, filter 0.15s, background-color 0.2s;
-      position: relative;
-      overflow: hidden;
+      transition: transform 0.1s, filter 0.15s;
     }
 
     .theme-android .btn:active {
@@ -271,7 +449,6 @@
     .theme-android .btn-func {
       background-color: #3b3d40;
       color: #c4c7c5;
-      font-size: 24px;
     }
 
     .theme-android .btn-op {
@@ -295,18 +472,83 @@
     .theme-android .btn-zero {
       grid-column: span 1;
       border-radius: 36px;
-      justify-content: center;
-      padding-left: 0;
     }
 
     /* ==========================================================================
-       MODAL DE CONTROL SECRETO Y CONFIGURACIÓN (MAGO)
+       BANNER INSTALAR PWA
+       ========================================================================== */
+    #pwa-install-banner {
+      display: none;
+      position: absolute;
+      top: calc(14px + var(--safe-top));
+      left: 16px;
+      right: 16px;
+      background: #1e2621;
+      border: 1px solid #36bc7c;
+      border-radius: 14px;
+      padding: 12px 16px;
+      z-index: 1000;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+      animation: slideDown 0.3s ease;
+    }
+
+    #pwa-install-banner.visible {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .install-text {
+      font-size: 13px;
+      color: #e5e5e7;
+      line-height: 1.3;
+    }
+    .install-text strong {
+      color: #36bc7c;
+      display: block;
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+
+    .install-btn-group {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .btn-pwa-install {
+      background: #36bc7c;
+      color: #000000;
+      border: none;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-pwa-close {
+      background: transparent;
+      border: none;
+      color: #8e8e93;
+      font-size: 18px;
+      padding: 4px;
+      cursor: pointer;
+    }
+
+    /* ==========================================================================
+       MODAL DE CONTROL SECRETO (MAGO)
        ========================================================================== */
     #secret-menu {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.82);
+      background: rgba(0, 0, 0, 0.84);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       z-index: 10000;
@@ -315,7 +557,6 @@
       justify-content: center;
       align-items: center;
       color: #ffffff;
-      font-family: -apple-system, system-ui, sans-serif;
     }
 
     #secret-menu.show {
@@ -326,34 +567,34 @@
       background: #1c1c1e;
       border: 1px solid #333336;
       border-radius: 20px;
-      padding: 24px;
+      padding: 22px;
       width: 100%;
       max-width: 360px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.6);
     }
 
     .menu-title {
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 700;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       display: flex;
       align-items: center;
       gap: 8px;
-      color: #ff9f0a;
+      color: #36bc7c;
     }
 
     .menu-subtitle {
-      font-size: 13px;
+      font-size: 12px;
       color: #8e8e93;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     .menu-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 16px;
-      font-size: 15px;
+      margin-bottom: 14px;
+      font-size: 14px;
     }
 
     .theme-selector {
@@ -361,22 +602,23 @@
       background: #2c2c2e;
       border-radius: 10px;
       padding: 3px;
+      gap: 2px;
     }
 
     .theme-opt-btn {
       border: none;
       background: transparent;
       color: #8e8e93;
-      padding: 7px 14px;
-      font-size: 13px;
+      padding: 6px 10px;
+      font-size: 12px;
       font-weight: 600;
-      border-radius: 8px;
+      border-radius: 7px;
       cursor: pointer;
     }
 
     .theme-opt-btn.active {
-      background: #0a84ff;
-      color: #ffffff;
+      background: #36bc7c;
+      color: #000000;
     }
 
     .status-badge {
@@ -387,29 +629,24 @@
       font-family: monospace;
       font-weight: bold;
       background: #2c2c2e;
-      color: #30d158;
+      color: #36bc7c;
     }
 
     .btn-action {
       width: 100%;
-      padding: 12px;
+      padding: 11px;
       background: #2c2c2e;
       border: 1px solid #3a3a3c;
-      border-radius: 12px;
+      border-radius: 11px;
       color: #ffffff;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 600;
       cursor: pointer;
       margin-top: 8px;
-      transition: background 0.2s;
-    }
-
-    .btn-action:active {
-      background: #3a3a3c;
     }
 
     .btn-action.primary {
-      background: #ff9f0a;
+      background: #36bc7c;
       color: #000000;
       border: none;
     }
@@ -418,11 +655,11 @@
       background: transparent;
       color: #8e8e93;
       border: none;
-      margin-top: 12px;
-      font-size: 14px;
+      margin-top: 8px;
+      font-size: 13px;
     }
 
-    /* Pequeño indicador sutil en esquina para verificar estado si se desea */
+    /* Punto indicador secreto en la esquina */
     #magic-status-dot {
       position: absolute;
       bottom: 6px;
@@ -435,36 +672,61 @@
       z-index: 100;
     }
     #magic-status-dot.armed {
-      background: rgba(255, 159, 10, 0.4);
+      background: rgba(54, 188, 124, 0.5);
     }
     #magic-status-dot.facedown {
-      background: rgba(48, 209, 88, 0.6);
+      background: rgba(48, 209, 88, 0.8);
     }
   </style>
 </head>
-<body class="theme-ios">
+<body class="theme-samsung">
 
-  <!-- Contenedor Principal de la App -->
   <div id="app-container">
     <!-- Puntos de contacto secretos para el mago -->
-    <!-- Triple tap en esquina superior izquierda abre menú de configuración -->
     <div id="hotspot-top-left" class="secret-hotspot" title="Triple tap: Menú Secreto"></div>
-    <!-- Triple tap en esquina superior derecha cambia instantáneamente el tema iOS <-> Android -->
     <div id="hotspot-top-right" class="secret-hotspot" title="Triple tap: Alternar Tema"></div>
 
+    <!-- Banner sugerencia de instalación PWA -->
+    <div id="pwa-install-banner">
+      <div class="install-text">
+        <strong>Instalar Calculadora</strong>
+        Para usar a pantalla completa como App nativa
+      </div>
+      <div class="install-btn-group">
+        <button type="button" class="btn-pwa-install" id="btn-trigger-pwa-install">Instalar</button>
+        <button type="button" class="btn-pwa-close" id="btn-close-pwa-banner">✕</button>
+      </div>
+    </div>
+
     <div class="calc-body">
+      <!-- Barra superior estilo Samsung (Historial, Conversor, Borrar) -->
+      <div class="samsung-toolbar" id="samsung-toolbar">
+        <div class="toolbar-left">
+          <!-- Icono Reloj / Historial -->
+          <svg class="tool-icon" viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z"/></svg>
+          <!-- Icono Regla / Conversor -->
+          <svg class="tool-icon" viewBox="0 0 24 24"><path d="M21 4H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H3V6h18v12zM5 8h2v3H5V8zm4 0h2v5H9V8zm4 0h2v3h-2V8zm4 0h2v5h-2V8z"/></svg>
+        </div>
+        <div class="toolbar-right">
+          <!-- Icono Backspace Samsung ⌫ -->
+          <svg class="tool-icon" id="btn-backspace" viewBox="0 0 24 24"><path d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z"/></svg>
+        </div>
+      </div>
+
       <!-- Pantalla de Display -->
       <div class="display-wrapper" id="display-area">
-        <div class="formula-line" id="formula-display"></div>
-        <div class="main-display" id="calc-display">0</div>
+        <!-- Línea 1: Operación / Fórmula actual (Ej: 875 × 45) -->
+        <div class="formula-line" id="formula-display">0</div>
+        <!-- Línea 2: Vista previa suave Samsung (Ej: 39.375) -->
+        <div class="soft-preview-line" id="soft-preview"></div>
       </div>
 
       <!-- Teclado de Calculadora -->
       <div class="keypad-grid" id="keypad">
         <!-- Fila 1 -->
-        <button type="button" class="btn btn-func" data-action="clear" id="btn-clear">AC</button>
-        <button type="button" class="btn btn-func" data-action="negate">±</button>
-        <button type="button" class="btn btn-func" data-action="percent">%</button>
+        <button type="button" class="btn btn-func" data-action="clear" id="btn-clear">C</button>
+        <button type="button" class="btn btn-func btn-parens" data-action="parens">( )</button>
+        <button type="button" class="btn btn-func btn-percent" data-action="percent">%</button>
         <button type="button" class="btn btn-op" data-action="divide" data-op="÷">÷</button>
 
         <!-- Fila 2 -->
@@ -486,29 +748,31 @@
         <button type="button" class="btn btn-op" data-action="add" data-op="+">+</button>
 
         <!-- Fila 5 -->
-        <button type="button" class="btn btn-num btn-zero" data-num="0">0</button>
+        <button type="button" class="btn btn-num btn-zero" data-action="negate">±</button>
+        <button type="button" class="btn btn-num" data-num="0">0</button>
         <button type="button" class="btn btn-num" data-action="decimal">,</button>
         <button type="button" class="btn btn-op btn-equal" data-action="equals" id="btn-equals">=</button>
       </div>
     </div>
 
-    <!-- Indicador discreto para el mago (opcional) -->
+    <!-- Indicador de estado discreto para el mago -->
     <div id="magic-status-dot"></div>
   </div>
 
-  <!-- Menú Secreto de Control (Mago) -->
+  <!-- Menú Secreto de Control y Configuración -->
   <div id="secret-menu">
     <div class="menu-card">
       <div class="menu-title">
         <span>✨ Configuración Mágica</span>
       </div>
-      <div class="menu-subtitle">Calculadora Mental - Parámetros y Test</div>
+      <div class="menu-subtitle">Calculadora Samsung / iOS / Android</div>
 
       <div class="menu-row">
         <span>Estilo de Interfaz</span>
         <div class="theme-selector">
-          <button type="button" class="theme-opt-btn active" id="opt-theme-ios">iOS</button>
-          <button type="button" class="theme-opt-btn" id="opt-theme-android">Android</button>
+          <button type="button" class="theme-opt-btn active" id="opt-theme-samsung">Samsung</button>
+          <button type="button" class="theme-opt-btn" id="opt-theme-ios">iOS</button>
+          <button type="button" class="theme-opt-btn" id="opt-theme-android">Google</button>
         </div>
       </div>
 
@@ -531,8 +795,8 @@
         🔄 Simular Giro Boca Abajo
       </button>
 
-      <button type="button" class="btn-action" id="btn-calibrate-sensors">
-        📡 Calibrar / Solicitar Permiso
+      <button type="button" class="btn-action" id="btn-install-shortcut">
+        📲 Instalar como App en Móvil
       </button>
 
       <button type="button" class="btn-action close-btn" id="btn-close-menu">Cerrar Menú</button>
@@ -543,9 +807,7 @@
     (function () {
       'use strict';
 
-      /* ========================================================================
-         AUDIO Y HÁPTICA PARA EXPERIENCIA REALISTA
-         ======================================================================== */
+      /* Audio & Háptica */
       let audioCtx = null;
       function playClickSound(freq = 600, duration = 0.02) {
         try {
@@ -559,7 +821,7 @@
           const gain = audioCtx.createGain();
           osc.type = 'sine';
           osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-          gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+          gain.gain.setValueAtTime(0.07, audioCtx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
           osc.connect(gain);
           gain.connect(audioCtx.destination);
@@ -574,101 +836,160 @@
         }
       }
 
-      /* ========================================================================
-         ESTADO DE LA CALCULADORA Y TRUCO DE MAGIA
-         ======================================================================== */
+      /* Estado de la Calculadora y Truco */
       const state = {
-        theme: 'ios',               // 'ios' | 'android'
-        currentInput: '0',          // Lo que se muestra en display actualmente
-        formulaHistory: '',         // Cadena de operaciones visible en Android
-        currentOperator: null,      // Operador actual pendiente ('multiply', 'add', etc.)
-        previousValue: null,        // Valor anterior antes de pulsar un operador
-        waitingForNextOperand: false,
-        activeOpElement: null,
+        theme: 'samsung',           // 'samsung' | 'ios' | 'android'
+        expression: '0',            // Expresión escrita completa (ej: "875 × 45")
+        currentOperand: '0',        // Último número siendo introducido
+        livePreview: '',            // Resultado suave calculado en tiempo real (Samsung)
+        waitingNewOperand: false,
+        activeOpElem: null,
 
         // Variables del Truco de Magia
-        trickArmed: false,          // Se activa al pulsar '+' tras multiplicaciones
-        accumulatedProductA: 0,     // 'A' acumulado
-        requiredDifferenceX: 0,     // 'X = T - A'
-        targetT: 0,                 // 'T' fecha y hora (DDMMYYHHMM)
-        isFaceDown: false,          // ¿Está el móvil boca abajo?
-        faceDownInteractionsCount: 0, // Contador de toques a ciegas del espectador
-        magicRevealed: false        // Se ha pulsado '=' y mostrado T
+        trickArmed: false,          // Activo al pulsar '+'
+        accumulatedProductA: 0,     // A
+        requiredDifferenceX: 0,     // X = T - A
+        targetT: 0,                 // T (Fecha/Hora DDMMYYHHMM)
+        isFaceDown: false,
+        faceDownTapsCount: 0,
+        magicRevealed: false
       };
 
-      /* Elementos DOM */
       const body = document.body;
-      const displayElem = document.getElementById('calc-display');
       const formulaElem = document.getElementById('formula-display');
+      const softPreviewElem = document.getElementById('soft-preview');
       const btnClear = document.getElementById('btn-clear');
       const secretMenu = document.getElementById('secret-menu');
       const sensorValElem = document.getElementById('sensor-val');
       const statusFacedownElem = document.getElementById('status-facedown');
       const targetPreviewElem = document.getElementById('target-preview');
       const statusDot = document.getElementById('magic-status-dot');
+      const pwaBanner = document.getElementById('pwa-install-banner');
+      let deferredPrompt = null;
 
       /* ========================================================================
-         LÓGICA DEL OBJETIVO TEMPORAL 'T' (DDMMYYHHMM)
+         FORMATO DE NÚMEROS Y FECHA/HORA T (DDMMYYHHMM)
          ======================================================================== */
       function computeTargetNumber() {
         const now = new Date();
         const dd = String(now.getDate()).padStart(2, '0');
         const mm = String(now.getMonth() + 1).padStart(2, '0');
-        const yy = String(now.getFullYear()).slice(-2); // 2 dígitos de año
+        const yy = String(now.getFullYear()).slice(-2);
         const hh = String(now.getHours()).padStart(2, '0');
         const min = String(now.getMinutes()).padStart(2, '0');
-
-        // Formato 10 dígitos: DDMMYYHHMM (Ej: 2509261530)
-        const targetStr = `${dd}${mm}${yy}${hh}${min}`;
-        return parseInt(targetStr, 10);
+        return parseInt(`${dd}${mm}${yy}${hh}${min}`, 10);
       }
 
-      /* Actualiza el display ajustando automáticamente el tamaño de fuente */
-      function updateDisplay(val) {
-        let displayStr = String(val);
-        // Reemplazo visual de punto por coma en español según la calculadora nativa
-        if (state.theme === 'ios') {
-          displayStr = displayStr.replace('.', ',');
+      // Formateador con puntos de miles para aspecto nativo en español
+      function formatNumberWithDots(strNum) {
+        if (!strNum || strNum === '') return '';
+        const parts = String(strNum).split('.');
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        return parts.join(',');
+      }
+
+      /* ========================================================================
+         EVALUADOR EN TIEMPO REAL (VISTA PREVIA SUAVE SAMSUNG)
+         ======================================================================== */
+      function evaluateLivePreview() {
+        if (state.trickArmed) {
+          // Si el truco está armado esperando boca abajo o revelación
+          if (state.requiredDifferenceX) {
+            softPreviewElem.textContent = formatNumberWithDots(state.targetT);
+          } else {
+            softPreviewElem.textContent = '';
+          }
+          return;
         }
 
-        displayElem.textContent = displayStr;
+        // Si la expresión contiene un operador y termina en un número
+        const expr = state.expression.trim();
+        const hasOperator = expr.includes('×') || expr.includes('+') || expr.includes('−') || expr.includes('÷') || expr.includes('-');
+        const endsWithOperator = /[×+\-−÷]$/.test(expr);
 
-        // Auto-scaling de tipografía si los dígitos son largos (hasta 10 dígitos)
+        if (!hasOperator || endsWithOperator) {
+          softPreviewElem.textContent = '';
+          return;
+        }
+
+        try {
+          // Reemplazo de símbolos a formato JavaScript
+          let sanitized = expr
+            .replace(/×/g, '*')
+            .replace(/−/g, '-')
+            .replace(/÷/g, '/');
+
+          // Calculamos de izquierda a derecha encadenado como calculadora estándar
+          const tokens = sanitized.match(/(\d+\.?\d*|[\+\-\*\/])/g);
+          if (!tokens || tokens.length < 3) {
+            softPreviewElem.textContent = '';
+            return;
+          }
+
+          let acc = parseFloat(tokens[0]);
+          for (let i = 1; i < tokens.length; i += 2) {
+            const op = tokens[i];
+            const nextVal = parseFloat(tokens[i + 1]);
+            if (isNaN(nextVal)) break;
+            if (op === '+') acc += nextVal;
+            else if (op === '-') acc -= nextVal;
+            else if (op === '*') acc *= nextVal;
+            else if (op === '/') acc = nextVal === 0 ? 0 : acc / nextVal;
+          }
+
+          if (!isNaN(acc) && isFinite(acc)) {
+            softPreviewElem.textContent = formatNumberWithDots(acc);
+          } else {
+            softPreviewElem.textContent = '';
+          }
+        } catch (e) {
+          softPreviewElem.textContent = '';
+        }
+      }
+
+      /* ========================================================================
+         ACTUALIZACIÓN VISUAL DEL DISPLAY
+         ======================================================================== */
+      function updateDisplay() {
+        let displayStr = state.expression;
+
+        // Formateo visual
+        if (state.theme === 'ios') {
+          // En iOS clásico sólo se muestra el número actual
+          displayStr = state.currentOperand.replace('.', ',');
+        }
+
+        formulaElem.textContent = displayStr;
+
+        // Autoescalado dinámico de tipografía
         const len = displayStr.length;
-        if (state.theme === 'ios') {
-          if (len > 9) {
-            displayElem.style.fontSize = '38px';
-          } else if (len > 7) {
-            displayElem.style.fontSize = '48px';
-          } else if (len > 5) {
-            displayElem.style.fontSize = '62px';
-          } else {
-            displayElem.style.fontSize = '80px';
-          }
+        if (state.theme === 'samsung') {
+          if (len > 14) formulaElem.style.fontSize = '26px';
+          else if (len > 10) formulaElem.style.fontSize = '34px';
+          else if (len > 7) formulaElem.style.fontSize = '40px';
+          else formulaElem.style.fontSize = '46px';
+        } else if (state.theme === 'ios') {
+          if (len > 9) formulaElem.style.fontSize = '38px';
+          else if (len > 7) formulaElem.style.fontSize = '48px';
+          else if (len > 5) formulaElem.style.fontSize = '62px';
+          else formulaElem.style.fontSize = '80px';
         } else {
-          // Android
-          if (len > 9) {
-            displayElem.style.fontSize = '34px';
-          } else if (len > 7) {
-            displayElem.style.fontSize = '44px';
-          } else if (len > 5) {
-            displayElem.style.fontSize = '54px';
-          } else {
-            displayElem.style.fontSize = '64px';
-          }
+          // Android Google
+          if (len > 12) formulaElem.style.fontSize = '34px';
+          else if (len > 8) formulaElem.style.fontSize = '44px';
+          else formulaElem.style.fontSize = '58px';
         }
 
-        if (state.theme === 'android') {
-          formulaElem.textContent = state.formulaHistory;
-        } else {
-          formulaElem.textContent = '';
+        // En Samsung/Android evaluamos la marcha suave en vivo
+        if (state.theme !== 'ios') {
+          evaluateLivePreview();
         }
 
         // Botón C vs AC
-        if (state.currentInput !== '0' && state.currentInput !== '') {
+        if (state.expression !== '0' && state.expression !== '') {
           btnClear.textContent = 'C';
         } else {
-          btnClear.textContent = 'AC';
+          btnClear.textContent = state.theme === 'samsung' ? 'C' : 'AC';
         }
 
         updateStatusDot();
@@ -685,217 +1006,206 @@
       }
 
       function clearActiveOp() {
-        if (state.activeOpElement) {
-          state.activeOpElement.classList.remove('active-op');
-          state.activeOpElement = null;
+        if (state.activeOpElem) {
+          state.activeOpElem.classList.remove('active-op');
+          state.activeOpElem = null;
         }
       }
 
       /* ========================================================================
-         MANEJO DE OPERACIONES DE LA CALCULADORA
+         LÓGICA DE TECLADO Y OPERACIONES
          ======================================================================== */
       function inputDigit(digit) {
-        if (state.waitingForNextOperand) {
-          state.currentInput = digit;
-          state.waitingForNextOperand = false;
+        if (state.waitingNewOperand) {
+          state.currentOperand = digit;
+          state.expression += ' ' + digit;
+          state.waitingNewOperand = false;
         } else {
-          if (state.currentInput === '0') {
-            state.currentInput = digit;
+          if (state.expression === '0') {
+            state.expression = digit;
+            state.currentOperand = digit;
           } else {
-            if (state.currentInput.length < 12) {
-              state.currentInput += digit;
-            }
+            state.expression += digit;
+            state.currentOperand += digit;
           }
         }
         clearActiveOp();
-        updateDisplay(state.currentInput);
+        updateDisplay();
       }
 
       function inputDecimal() {
-        if (state.waitingForNextOperand) {
-          state.currentInput = '0.';
-          state.waitingForNextOperand = false;
-        } else if (!state.currentInput.includes('.')) {
-          state.currentInput += '.';
+        if (state.waitingNewOperand) {
+          state.currentOperand = '0.';
+          state.expression += ' 0.';
+          state.waitingNewOperand = false;
+        } else if (!state.currentOperand.includes('.')) {
+          state.currentOperand += '.';
+          state.expression += ',';
         }
         clearActiveOp();
-        updateDisplay(state.currentInput);
+        updateDisplay();
       }
 
-      function performOperation(nextOperator, buttonElem) {
-        const inputValue = parseFloat(state.currentInput);
+      function inputBackspace() {
+        if (state.expression.length <= 1) {
+          state.expression = '0';
+          state.currentOperand = '0';
+        } else {
+          state.expression = state.expression.trimEnd();
+          state.expression = state.expression.slice(0, -1).trimEnd();
+          if (state.expression === '') state.expression = '0';
+        }
+        updateDisplay();
+      }
 
-        // Si ya había un operador seleccionado y el usuario aún no ha escrito el segundo operando,
-        // simplemente cambiamos el operador activo
-        if (state.currentOperator && state.waitingForNextOperand) {
-          state.currentOperator = nextOperator;
+      function performOperation(opName, btnElem) {
+        let opSymbol = '×';
+        if (opName === 'add') opSymbol = '+';
+        else if (opName === 'subtract') opSymbol = '−';
+        else if (opName === 'divide') opSymbol = '÷';
+
+        // Si ya terminaba en operador, lo reemplazamos
+        if (/[×+\-−÷]$/.test(state.expression.trim())) {
+          state.expression = state.expression.trim().slice(0, -1) + opSymbol;
           clearActiveOp();
-          if (buttonElem) {
-            buttonElem.classList.add('active-op');
-            state.activeOpElement = buttonElem;
+          if (btnElem) {
+            btnElem.classList.add('active-op');
+            state.activeOpElem = btnElem;
           }
+          updateDisplay();
           return;
         }
 
-        // FASE 2 DEL TRUCO: Cuando se presiona la suma (+)
-        if (nextOperator === 'add') {
-          let currentA = inputValue;
-          if (state.previousValue !== null && state.currentOperator) {
-            currentA = executeMath(state.previousValue, inputValue, state.currentOperator);
+        // FASE 2 DEL TRUCO: Cuando se pulsa la suma '+'
+        if (opName === 'add') {
+          // Calculamos el valor acumulado 'A' de las multiplicaciones previas
+          let valA = 0;
+          if (softPreviewElem.textContent !== '') {
+            valA = parseFloat(softPreviewElem.textContent.replace(/\./g, '').replace(',', '.'));
+          } else {
+            valA = parseFloat(state.currentOperand);
           }
-          // Guardamos el resultado acumulado de las multiplicaciones 'A'
-          state.accumulatedProductA = currentA;
+
+          state.accumulatedProductA = valA;
           state.trickArmed = true;
           state.magicRevealed = false;
 
-          // Guardamos estado para continuar
-          state.previousValue = currentA;
-          state.currentInput = String(currentA);
-          state.formulaHistory = `${currentA} +`;
-          state.currentOperator = 'add';
-          state.waitingForNextOperand = true;
+          state.expression += ' +';
+          state.currentOperand = '';
+          state.waitingNewOperand = true;
 
           clearActiveOp();
-          if (buttonElem) {
-            buttonElem.classList.add('active-op');
-            state.activeOpElement = buttonElem;
+          if (btnElem) {
+            btnElem.classList.add('active-op');
+            state.activeOpElem = btnElem;
           }
 
-          updateDisplay(state.currentInput);
+          updateDisplay();
           return;
         }
 
-        // Operaciones normales (multiplicaciones encadenadas, restas, divisiones)
-        if (state.previousValue === null) {
-          state.previousValue = inputValue;
-          const symbol = buttonElem ? buttonElem.getAttribute('data-op') : '';
-          state.formulaHistory = `${inputValue} ${symbol}`;
-        } else if (state.currentOperator) {
-          const result = executeMath(state.previousValue, inputValue, state.currentOperator);
-          state.currentInput = String(result);
-          state.previousValue = result;
-          const symbol = buttonElem ? buttonElem.getAttribute('data-op') : '';
-          state.formulaHistory = `${result} ${symbol}`;
-          updateDisplay(result);
-        }
-
-        state.waitingForNextOperand = true;
-        state.currentOperator = nextOperator;
+        // Multiplicaciones encadenadas u otros operadores
+        state.expression += ' ' + opSymbol;
+        state.currentOperand = '';
+        state.waitingNewOperand = true;
 
         clearActiveOp();
-        if (buttonElem) {
-          buttonElem.classList.add('active-op');
-          state.activeOpElement = buttonElem;
+        if (btnElem) {
+          btnElem.classList.add('active-op');
+          state.activeOpElem = btnElem;
         }
+
+        updateDisplay();
       }
 
-      function executeMath(first, second, operator) {
-        switch (operator) {
-          case 'add': return first + second;
-          case 'subtract': return first - second;
-          case 'multiply': return first * second;
-          case 'divide': return second === 0 ? 0 : first / second;
-          default: return second;
-        }
-      }
-
+      /* Al pulsar el igual '=' (Efecto Samsung: la marcha suave sube arriba) */
       function handleEquals() {
-        if (!state.currentOperator && !state.trickArmed) return;
-
-        const inputValue = parseFloat(state.currentInput);
-
         // FASE 4: Revelación final si el truco está armado
         if (state.trickArmed) {
-          // El display mostraba 'X'. Ahora A + X = T
           const target = computeTargetNumber();
           state.magicRevealed = true;
           state.trickArmed = false;
-          state.currentInput = String(target);
-          state.formulaHistory = `${state.accumulatedProductA} + ${state.requiredDifferenceX} =`;
-          state.previousValue = null;
-          state.currentOperator = null;
-          state.waitingForNextOperand = true;
+
+          // Animación Samsung: el resultado T sube arriba
+          formulaElem.classList.remove('promoted');
+          void formulaElem.offsetWidth; // Forzar reflow
+          formulaElem.classList.add('promoted');
+
+          state.expression = String(target);
+          state.currentOperand = String(target);
+          softPreviewElem.textContent = '';
           clearActiveOp();
-          updateDisplay(target);
+          updateDisplay();
           return;
         }
 
-        // Modo calculadora ordinaria
-        if (state.previousValue !== null && state.currentOperator) {
-          const result = executeMath(state.previousValue, inputValue, state.currentOperator);
-          state.formulaHistory = `${state.previousValue} ${getOpSymbol(state.currentOperator)} ${inputValue} =`;
-          state.currentInput = String(result);
-          state.previousValue = null;
-          state.currentOperator = null;
-          state.waitingForNextOperand = true;
-          clearActiveOp();
-          updateDisplay(result);
-        }
-      }
+        // Modo calculadora normal
+        if (softPreviewElem.textContent !== '') {
+          const finalResult = softPreviewElem.textContent;
 
-      function getOpSymbol(op) {
-        switch (op) {
-          case 'add': return '+';
-          case 'subtract': return '-';
-          case 'multiply': return '×';
-          case 'divide': return '÷';
-          default: return '';
+          // Animación Samsung: el número de la marcha suave sube a la línea de fórmula
+          formulaElem.classList.remove('promoted');
+          void formulaElem.offsetWidth;
+          formulaElem.classList.add('promoted');
+
+          state.expression = finalResult;
+          state.currentOperand = finalResult.replace(/\./g, '');
+          softPreviewElem.textContent = '';
+          state.waitingNewOperand = true;
+          clearActiveOp();
+          updateDisplay();
         }
       }
 
       function clearAll() {
-        if (state.currentInput !== '0' && !state.waitingForNextOperand) {
-          // Primer toque en 'C': borra el input actual
-          state.currentInput = '0';
-        } else {
-          // Segundo toque en 'AC': resetea todo
-          state.currentInput = '0';
-          state.previousValue = null;
-          state.currentOperator = null;
-          state.waitingForNextOperand = false;
-          state.formulaHistory = '';
-          state.trickArmed = false;
-          state.magicRevealed = false;
-          state.faceDownInteractionsCount = 0;
-          clearActiveOp();
-        }
-        updateDisplay(state.currentInput);
+        state.expression = '0';
+        state.currentOperand = '0';
+        state.livePreview = '';
+        state.waitingNewOperand = false;
+        state.trickArmed = false;
+        state.magicRevealed = false;
+        state.faceDownTapsCount = 0;
+        softPreviewElem.textContent = '';
+        clearActiveOp();
+        updateDisplay();
       }
 
       function toggleNegate() {
-        let val = parseFloat(state.currentInput);
-        if (val !== 0) {
+        let val = parseFloat(state.currentOperand);
+        if (val !== 0 && !isNaN(val)) {
           val = -val;
-          state.currentInput = String(val);
-          updateDisplay(state.currentInput);
+          state.currentOperand = String(val);
+          state.expression = String(val);
+          updateDisplay();
         }
       }
 
       function applyPercent() {
-        let val = parseFloat(state.currentInput) / 100;
-        state.currentInput = String(val);
-        updateDisplay(state.currentInput);
+        let val = parseFloat(state.currentOperand) / 100;
+        state.currentOperand = String(val);
+        state.expression = String(val);
+        updateDisplay();
       }
 
       /* ========================================================================
-         FASE 3: DETECCIÓN BOCA ABAJO Y TOQUES A CIEGAS DEL ESPECTADOR
+         FASE 3: GIROSCOPIO Y TOQUES A CIEGAS
          ======================================================================== */
       function onPhoneTurnedFaceDown() {
         if (state.isFaceDown) return;
         state.isFaceDown = true;
         statusFacedownElem.textContent = 'SÍ (Boca abajo)';
-        statusFacedownElem.style.color = '#30d158';
+        statusFacedownElem.style.color = '#36bc7c';
         updateStatusDot();
 
-        // Si el truco está armado (se pulsó '+')
         if (state.trickArmed) {
           state.targetT = computeTargetNumber();
           state.requiredDifferenceX = state.targetT - state.accumulatedProductA;
           targetPreviewElem.textContent = state.targetT;
 
-          // Asignamos ya la cifra requerida 'X'
-          state.currentInput = String(state.requiredDifferenceX);
-          state.waitingForNextOperand = false;
+          // Asignamos internamente la cifra requerida X
+          state.currentOperand = String(state.requiredDifferenceX);
+          state.expression = `${formatNumberWithDots(state.accumulatedProductA)} + ${state.requiredDifferenceX}`;
+          state.waitingNewOperand = false;
         }
       }
 
@@ -906,55 +1216,38 @@
         statusFacedownElem.style.color = '#8e8e93';
         updateStatusDot();
 
-        // Al ponerse boca arriba, si estaba armado y ya se asignó 'X'
         if (state.trickArmed) {
           clearActiveOp();
-          updateDisplay(state.currentInput);
+          updateDisplay();
         }
       }
 
-      /* Toques mientras el teléfono está boca abajo */
       function handleBlindTouch(e) {
         if (!state.isFaceDown) return;
-
-        // Impedimos cualquier acción por defecto que rompa la pantalla
         e.preventDefault();
         e.stopPropagation();
 
-        state.faceDownInteractionsCount++;
-
-        // Haptic y click sonoro sutil
+        state.faceDownTapsCount++;
         triggerHaptic(20);
         playClickSound(550, 0.03);
 
-        // Si el truco está armado, aseguramos que 'X' esté firmemente fijado
         if (state.trickArmed) {
           state.targetT = computeTargetNumber();
           state.requiredDifferenceX = state.targetT - state.accumulatedProductA;
-          state.currentInput = String(state.requiredDifferenceX);
+          state.currentOperand = String(state.requiredDifferenceX);
+          state.expression = `${formatNumberWithDots(state.accumulatedProductA)} + ${state.requiredDifferenceX}`;
         }
       }
 
-      /* ========================================================================
-         DEVICE ORIENTATION & SENSORES (COMPATIBILIDAD iOS & ANDROID)
-         ======================================================================== */
       let orientationListenerAttached = false;
-
       function handleOrientation(event) {
-        const beta = event.beta;   // Inclinación frontal/trasera (-180 a 180)
-        const gamma = event.gamma; // Inclinación lateral (-90 a 90)
-
+        const beta = event.beta;
+        const gamma = event.gamma;
         if (beta === null || gamma === null) return;
 
         sensorValElem.textContent = `${Math.round(beta)}° / ${Math.round(gamma)}°`;
 
-        /*
-           Móvil plano boca abajo:
-           - En iOS y Android la pantalla apoyada sobre la mesa produce |beta| > 135°
-           - O en ciertas rotaciones: Math.abs(gamma) > 135°
-        */
         const isFacingDown = Math.abs(beta) > 135 || Math.abs(gamma) > 135;
-
         if (isFacingDown) {
           onPhoneTurnedFaceDown();
         } else if (Math.abs(beta) < 80 && Math.abs(gamma) < 60) {
@@ -965,20 +1258,16 @@
       function requestOrientationPermission() {
         if (typeof DeviceOrientationEvent !== 'undefined' &&
             typeof DeviceOrientationEvent.requestPermission === 'function') {
-          // Protocolo iOS 13+
           DeviceOrientationEvent.requestPermission()
             .then(res => {
               if (res === 'granted' && !orientationListenerAttached) {
                 window.addEventListener('deviceorientation', handleOrientation, true);
                 orientationListenerAttached = true;
-                sensorValElem.textContent = 'Permiso Concedido';
+                sensorValElem.textContent = 'Permiso OK';
               }
             })
-            .catch(err => {
-              sensorValElem.textContent = 'Error iOS Perm';
-            });
+            .catch(() => { sensorValElem.textContent = 'Permiso Denegado'; });
         } else if (!orientationListenerAttached) {
-          // Android y navegadores estándar
           window.addEventListener('deviceorientation', handleOrientation, true);
           orientationListenerAttached = true;
           sensorValElem.textContent = 'Activo';
@@ -986,38 +1275,35 @@
       }
 
       /* ========================================================================
-         INTERFAZ Y CAMBIO DE TEMAS (iOS vs ANDROID MATERIAL YOU)
+         TEMAS (SAMSUNG ONE UI / iOS / ANDROID GOOGLE)
          ======================================================================== */
       function setTheme(newTheme) {
         state.theme = newTheme;
-        if (newTheme === 'android') {
-          body.classList.remove('theme-ios');
-          body.classList.add('theme-android');
-          document.getElementById('opt-theme-android').classList.add('active');
-          document.getElementById('opt-theme-ios').classList.remove('active');
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#1e1f20');
-        } else {
-          body.classList.remove('theme-android');
-          body.classList.add('theme-ios');
-          document.getElementById('opt-theme-ios').classList.add('active');
-          document.getElementById('opt-theme-android').classList.remove('active');
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000000');
-        }
-        updateDisplay(state.currentInput);
+        body.className = `theme-${newTheme}`;
+
+        document.getElementById('opt-theme-samsung').classList.toggle('active', newTheme === 'samsung');
+        document.getElementById('opt-theme-ios').classList.toggle('active', newTheme === 'ios');
+        document.getElementById('opt-theme-android').classList.toggle('active', newTheme === 'android');
+
+        const themeColor = newTheme === 'android' ? '#1e1f20' : '#000000';
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', themeColor);
+
+        updateDisplay();
       }
 
-      function toggleTheme() {
+      function cycleTheme() {
         triggerHaptic(30);
-        setTheme(state.theme === 'ios' ? 'android' : 'ios');
+        if (state.theme === 'samsung') setTheme('ios');
+        else if (state.theme === 'ios') setTheme('android');
+        else setTheme('samsung');
       }
 
       /* ========================================================================
-         EVENT LISTENERS & DISPATCHER DE BOTONES
+         EVENT LISTENERS & DISPATCHERS
          ======================================================================== */
       const keypad = document.getElementById('keypad');
 
       keypad.addEventListener('click', function (e) {
-        // Si el móvil está boca abajo, ignoramos botones ordinarios y tratamos como toque ciego
         if (state.isFaceDown) {
           handleBlindTouch(e);
           return;
@@ -1029,110 +1315,94 @@
         playClickSound(650, 0.02);
         triggerHaptic(12);
 
-        // Digitos
         if (btn.hasAttribute('data-num')) {
           inputDigit(btn.getAttribute('data-num'));
           return;
         }
 
-        // Acciones
         const action = btn.getAttribute('data-action');
         switch (action) {
-          case 'clear':
-            clearAll();
-            break;
-          case 'decimal':
-            inputDecimal();
-            break;
-          case 'negate':
-            toggleNegate();
-            break;
-          case 'percent':
-            applyPercent();
-            break;
+          case 'clear': clearAll(); break;
+          case 'decimal': inputDecimal(); break;
+          case 'negate': toggleNegate(); break;
+          case 'percent': applyPercent(); break;
+          case 'parens': /* paréntesis opcional */ break;
           case 'add':
           case 'subtract':
           case 'multiply':
           case 'divide':
             performOperation(action, btn);
             break;
-          case 'equals':
-            handleEquals();
-            break;
+          case 'equals': handleEquals(); break;
         }
       });
 
-      // Toques en cualquier zona mientras está boca abajo
-      window.addEventListener('touchstart', function (e) {
-        // En el primer toque de usuario en cualquier parte, solicitamos permisos de orientación silenciosamente
-        if (!orientationListenerAttached) {
-          requestOrientationPermission();
-        }
+      // Botón backspace en toolbar
+      document.getElementById('btn-backspace').addEventListener('click', function () {
+        playClickSound(500, 0.02);
+        triggerHaptic(10);
+        inputBackspace();
+      });
 
-        if (state.isFaceDown) {
-          handleBlindTouch(e);
-        }
+      // Toques globales
+      window.addEventListener('touchstart', function (e) {
+        if (!orientationListenerAttached) requestOrientationPermission();
+        if (state.isFaceDown) handleBlindTouch(e);
       }, { passive: false });
 
       window.addEventListener('mousedown', function (e) {
-        if (!orientationListenerAttached) {
-          requestOrientationPermission();
-        }
-        if (state.isFaceDown) {
-          handleBlindTouch(e);
-        }
+        if (!orientationListenerAttached) requestOrientationPermission();
+        if (state.isFaceDown) handleBlindTouch(e);
       });
 
-      /* Atajos Secretos: Triple tap en esquina superior izquierda (menú) o derecha (tema) */
-      let leftTapCount = 0;
-      let leftTapTimer = null;
+      /* Atajos Secretos: Triple tap */
+      let leftTaps = 0, leftTimer = null;
       document.getElementById('hotspot-top-left').addEventListener('click', function (e) {
         e.stopPropagation();
-        leftTapCount++;
-        clearTimeout(leftTapTimer);
-        if (leftTapCount >= 3) {
-          leftTapCount = 0;
+        leftTaps++;
+        clearTimeout(leftTimer);
+        if (leftTaps >= 3) {
+          leftTaps = 0;
           triggerHaptic(40);
           targetPreviewElem.textContent = computeTargetNumber();
           secretMenu.classList.add('show');
         } else {
-          leftTapTimer = setTimeout(() => { leftTapCount = 0; }, 400);
+          leftTimer = setTimeout(() => { leftTaps = 0; }, 400);
         }
       });
 
-      let rightTapCount = 0;
-      let rightTapTimer = null;
+      let rightTaps = 0, rightTimer = null;
       document.getElementById('hotspot-top-right').addEventListener('click', function (e) {
         e.stopPropagation();
-        rightTapCount++;
-        clearTimeout(rightTapTimer);
-        if (rightTapCount >= 3) {
-          rightTapCount = 0;
-          toggleTheme();
+        rightTaps++;
+        clearTimeout(rightTimer);
+        if (rightTaps >= 3) {
+          rightTaps = 0;
+          cycleTheme();
         } else {
-          rightTapTimer = setTimeout(() => { rightTapCount = 0; }, 400);
+          rightTimer = setTimeout(() => { rightTaps = 0; }, 400);
         }
       });
 
-      // Pulsación prolongada en el área del display también abre el menú secreto
+      // Long press en display
       let pressTimer = null;
-      displayElem.addEventListener('touchstart', function () {
+      document.getElementById('display-area').addEventListener('touchstart', function () {
         pressTimer = setTimeout(() => {
           triggerHaptic(50);
           targetPreviewElem.textContent = computeTargetNumber();
           secretMenu.classList.add('show');
         }, 1200);
       });
-      displayElem.addEventListener('touchend', function () {
+      document.getElementById('display-area').addEventListener('touchend', function () {
         clearTimeout(pressTimer);
       });
 
-      // Menú de opciones
+      // Botones del Menú Secreto
+      document.getElementById('opt-theme-samsung').addEventListener('click', () => setTheme('samsung'));
       document.getElementById('opt-theme-ios').addEventListener('click', () => setTheme('ios'));
       document.getElementById('opt-theme-android').addEventListener('click', () => setTheme('android'));
       document.getElementById('btn-close-menu').addEventListener('click', () => secretMenu.classList.remove('show'));
 
-      // Botón Simular Boca Abajo para test en PC o desarrollo
       document.getElementById('btn-simulate-facedown').addEventListener('click', function () {
         if (state.isFaceDown) {
           onPhoneTurnedFaceUp();
@@ -1143,46 +1413,57 @@
         }
       });
 
-      document.getElementById('btn-calibrate-sensors').addEventListener('click', function () {
-        requestOrientationPermission();
-      });
-
-      // Tecla 'F' o 'D' en teclado físico para simular giro boca abajo en PC
+      // Teclas 'F' o 'D' en teclado físico para test
       window.addEventListener('keydown', function (e) {
         if (e.key === 'f' || e.key === 'F' || e.key === 'd' || e.key === 'D') {
-          if (state.isFaceDown) {
-            onPhoneTurnedFaceUp();
-          } else {
-            onPhoneTurnedFaceDown();
-          }
+          if (state.isFaceDown) onPhoneTurnedFaceUp();
+          else onPhoneTurnedFaceDown();
         }
       });
 
       /* ========================================================================
-         PREVENCIÓN DE COMPORTAMIENTOS NO DESEADOS DE NAVEGADOR WEB
+         SOPORTE PWA NATIVO E INSTALACIÓN
          ======================================================================== */
-      // Bloquear zoom multitáctil
-      document.addEventListener('gesturestart', function (e) {
+      window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
+        deferredPrompt = e;
+        pwaBanner.classList.add('visible');
       });
 
-      // Prevenir rebote de scroll
-      document.body.addEventListener('touchmove', function (e) {
-        e.preventDefault();
-      }, { passive: false });
+      document.getElementById('btn-trigger-pwa-install').addEventListener('click', async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          deferredPrompt = null;
+          pwaBanner.classList.remove('visible');
+        }
+      });
 
-      // Registro offline mínimo para PWA
+      document.getElementById('btn-close-pwa-banner').addEventListener('click', () => {
+        pwaBanner.classList.remove('visible');
+      });
+
+      document.getElementById('btn-install-shortcut').addEventListener('click', () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+        } else {
+          alert("Para instalar en tu teléfono:\n\n• En Android/Samsung: Toca el menú de tres puntos (⋮) en la esquina del navegador y pulsa 'Instalar aplicación' o 'Añadir a pantalla de inicio'.\n\n• En iPhone (Safari): Pulsa el botón Compartir (cuadrado con flecha hacia arriba) y selecciona 'Añadir a pantalla de inicio'.");
+        }
+      });
+
+      // Registro de Service Worker oficial
       if ('serviceWorker' in navigator) {
-        const swBlob = new Blob([
-          `self.addEventListener('install', e => self.skipWaiting());
-           self.addEventListener('activate', e => self.clients.claim());
-           self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => caches.match(e.request))));`
-        ], { type: 'application/javascript' });
-        navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(() => {});
+        navigator.serviceWorker.register('sw.js')
+          .then(reg => console.log('SW registrado:', reg.scope))
+          .catch(err => console.log('SW fallback:', err));
       }
 
-      // Inicialización inicial
-      updateDisplay('0');
+      // Prevenciones habituales de navegador móvil
+      document.addEventListener('gesturestart', (e) => e.preventDefault());
+      document.body.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+
+      // Iniciar con tema Samsung
+      setTheme('samsung');
 
     })();
   </script>
